@@ -2,4 +2,12 @@
 
 @theme {
   --font-sans: 'Comic Sans MS', 'Comic Sans', cursive;
+  --font-body: ui-sans-serif, system-ui, sans-serif; /* Обычный шрифт для текста, чтобы не перегружать */
+
+  /* Базовые цвета интерфейса (в тон вашему Dashboard) */
+  --color-app-bg: #0f172a;       /* slate-900 - общий фон */
+  --color-card-bg: #1e293b;      /* slate-800 - фон карточек */
+  --color-card-border: #334155;  /* slate-700 - рамки карточек */
+  --color-text-main: #f1f5f9;    /* slate-100 - основной текст */
+  --color-text-muted: #94a3b8;   /* slate-400 - второстепенный текст */
 }

@@ -580,6 +580,7 @@ frontend/
 - Email verification.
 - Password reset flow.
 - Profile editing (avatar upload, password change).
+- **Public Profiles:** Allow users to make their dashboards public and view other users' statistics (requires privacy settings to opt-in, new public endpoints, and frontend routing).
 
 ### Catalog & Data
 - **Local image storage (S3):** Download external images (talents, constellations, character icons) and store them locally to avoid hotlinking and broken links. *(Note: currently using temporary URLs from the parser JSON).*
@@ -590,6 +591,7 @@ frontend/
 - Full constellation data.
 - Team compositions, share builds.
 - Artifact recommendations.
+- **Pinned Characters:** Allow users to pin up to 3 characters to display them prominently on the main dashboard (requires DB schema update and limit validation).
 
 ### UI/UX
 - Animated SVG for constellation art in Zone 4 (currently static PNG).
@@ -597,6 +599,7 @@ frontend/
 - Dark / light theme toggle.
 - PWA installation.
 - Mobile layout for Zone 1-4 (currently PC-only block).
+- **Character Stats on Card:** Display key character stats (CR, CD, ER, EM, HP, etc.) on the catalog character cards using the provided SVG icons. (Requires UI redesign to avoid clutter).
 
 ### Payments
 - Stripe + YooKassa providers.
@@ -608,3 +611,23 @@ frontend/
 - Prometheus metrics.
 - Admin panel: User management page (view roles, grant/revoke Premium).
 - Document local webhook tunneling (localhost.run / ngrok) in README.
+
+### Architecture: Multi-Game Platform (Future Vision)
+The ultimate evolution of the project is a **game-agnostic platform** supporting Genshin Impact, Honkai: Star Rail, and Wuthering Waves from a single account.
+
+**Core Concept:**
+- Move from a single-game tracker to a multi-tenant architecture.
+- **Do not create separate codebases.** Extract all game-independent logic (Auth, Payments, Profile, Core Progress logic) into a shared `core/`.
+- **Unified Auth:** User logs in once and can track characters across multiple games.
+
+**Architecture Choice: Multi-Tenant Single DB (Variant A)**
+- Add a `games` table (`id`, `slug`, `name`).
+- Add a `game_id` FK to catalogs (`characters`, `weapons`, `artifact_sets`) and user data (`user_characters`).
+- Pros: Single backend, single deployment, easy cross-game statistics in the future.
+- Cons: Some nullable fields for game-specific mechanics (e.g., `masterless_stella_fortuna` for Genshin only).
+
+**Implementation Strategy (for later):**
+1. Create a `GameConfig` strategy interface (e.g., `calculate_progress()`, `get_catalog_parser()`).
+2. Each game implements its own config (Genshin caps at lvl 90, HSR has traces, WuWa has echoes).
+3. API routing prefix becomes `/api/v1/games/{game_slug}/characters`.
+4. Frontend adds a "Game Switcher" in the header and filters context by `game_id`.

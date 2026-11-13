@@ -12,6 +12,7 @@ import Dashboard from '@/pages/Dashboard'
 import ErrorPage from '@/pages/ErrorPage'
 import ProfilePage from '@/pages/ProfilePage'
 import LandingPage from '@/pages/LandingPage'
+import TestHSRPage from '@/pages/TestHSRPage'
 
 export const router = createBrowserRouter([
   {
@@ -54,11 +55,15 @@ export const router = createBrowserRouter([
             element: <ProfilePage />,
           },
           {
-            element: <AdminRoute />,
+            element: <AdminRoute />, // <--- Проверка на роль ADMIN
             children: [
               {
                 path: 'admin/catalog',
                 element: <AdminCatalogPage />,
+              },
+              {
+                path: 'testHSR',
+                element: <TestHSRPage />,
               },
             ],
           },

@@ -56,6 +56,7 @@ export default function Layout() {
 
           {/* ПРАВАЯ ЧАСТЬ: Админка + Профиль */}
           <nav className="flex items-center gap-6 text-sm">
+            {user?.role === 'admin' && <NavItem to="/testHSR">Тест HSR</NavItem>}
             {user?.role === 'admin' && <NavItem to="/admin/catalog">Админка</NavItem>}
 
             {!user && (
