@@ -9,6 +9,7 @@ import { useSectionScroll } from '@/shared/lib/useSectionScroll'
 import { useAuthStore } from '@/shared/lib/auth-store'
 import { useSettingsStore } from '@/shared/lib/settings-store'
 import { getCharacterImage } from '@/shared/lib/image-utils'
+import { useDynamicFavicon } from '@/shared/lib/useDynamicFavicon' // Убедитесь, что путь правильный
 
 import ErrorState from '@/shared/ui/ErrorState'
 import LoadingSpinner from '@/shared/ui/LoadingSpinner'
@@ -24,7 +25,7 @@ export default function CharacterDetailPage() {
   const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
   const user = useAuthStore((s) => s.user)
-  const { usePremiumImages } = useSettingsStore() // <--- ДОБАВИЛИ
+  const { usePremiumImages } = useSettingsStore()
   const qc = useQueryClient()
   const [selectedSlot, setSelectedSlot] = useState<EquipmentSlotKey>('weapon')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
@@ -66,6 +67,10 @@ export default function CharacterDetailPage() {
     queryFn: () => catalogApi.getWeights(),
     staleTime: 5 * 60_000,
   })
+
+  // ВЫЗОВ ХУКА: Передаем стихию. Если данных еще нет, передастся undefined (поставится дефолтная иконка).
+  // Вызывать хуки нужно ДО любых return (ранних возвратов), иначе React будет ругаться.
+  useDynamicFavicon(catalogQuery.data?.element)
 
   const detail = detailQuery.data
   const artifactSets = setsQuery.data?.items || []

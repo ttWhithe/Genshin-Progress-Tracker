@@ -12,6 +12,7 @@ import Dashboard from '@/pages/Dashboard'
 import ErrorPage from '@/pages/ErrorPage'
 import ProfilePage from '@/pages/ProfilePage'
 import LandingPage from '@/pages/LandingPage'
+import HSRCharactersPage from '@/pages/HSRCharactersPage'
 import TestHSRPage from '@/pages/TestHSRPage'
 
 export const router = createBrowserRouter([
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
               {
                 path: 'admin/catalog',
                 element: <AdminCatalogPage />,
+              },
+              {
+                path: 'hsr-characters',
+                element: <HSRCharactersPage />,
               },
               {
                 path: 'testHSR',

@@ -11,6 +11,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173,
+    port: 5173,         // Жестко задаем порт
+    strictPort: true,   // Если порт занят, Vite выдаст ошибку, а не будет искать другой
   },
 })

@@ -13,7 +13,7 @@ export default function Layout() {
   const menuRef = useRef<HTMLDivElement>(null)
   const isCharacterDetail = /^\/characters\/[^/]+\/?$/.test(location.pathname)
   const isDashboard = location.pathname === '/'
-  const isFullWidth = isDashboard || isCharacterDetail
+  const isFullWidth = isDashboard || isCharacterDetail || location.pathname.startsWith('/hsr-characters')
   const { usePremiumImages, togglePremiumImages } = useSettingsStore()
 
   // Закрываем меню при клике вне его
@@ -56,6 +56,7 @@ export default function Layout() {
 
           {/* ПРАВАЯ ЧАСТЬ: Админка + Профиль */}
           <nav className="flex items-center gap-6 text-sm">
+            {user?.role === 'admin' && <NavItem to="/hsr-characters">HSR Characters</NavItem>}
             {user?.role === 'admin' && <NavItem to="/testHSR">Тест HSR</NavItem>}
             {user?.role === 'admin' && <NavItem to="/admin/catalog">Админка</NavItem>}
 
